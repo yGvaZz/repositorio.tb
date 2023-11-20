@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo de Perguntas e Respostas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .question {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+    }
+
+    .option {
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+      background-color: #e6e6e6;
+    }
+
+    .result {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jogo de Perguntas e Respostas</h1>
+    <div class="question" id="question">Carregando pergunta...</div>
+    <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Qual é a capital do Brasil?",
+        options: ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"],
+        answer: "Brasília"
+      },
+      {
+        question: "Quem pintou a Mona Lisa?",
+        options: ["Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Michelangelo"],
+        answer: "Leonardo da Vinci"
+      },
+      {
+        question: "Qual é o maior planeta do Sistema Solar?",
+        options: ["Terra", "Júpiter", "Vênus", "Marte"],
+        answer: "Júpiter"
+      }
+      
+    ];
+
+    let currentQuestion = 0;
+    const questionElement = document.getElementById('question');
+    const optionsElement = document.getElementById('options');
+    const resultElement = document.getElementById('result');
+
+    function loadQuestion() {
+      const current = questions[currentQuestion];
+      questionElement.textContent = current.question;
+      optionsElement.innerHTML = '';
+
+      current.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.classList.add('option');
+        button.addEventListener('click', () => checkAnswer(option));
+        optionsElement.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const current = questions[currentQuestion];
+      if (selected === current.answer) {
+        resultElement.textContent = "Resposta correta!";
+      } else {
+        resultElement.textContent = `Resposta errada. A resposta correta é: ${current.answer}`;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        setTimeout(loadQuestion, 1000); 
+      } else {
+        questionElement.textContent = 'Fim do jogo!';
+        optionsElement.innerHTML = '';
+        resultElement.textContent = '';
+      }
+    }
+
+   
+    window.addEventListener('load', loadQuestion);
+  </script>
+</body>
+</html>
